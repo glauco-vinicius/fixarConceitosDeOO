@@ -80,7 +80,8 @@ public class Curso {
         return listaDisciplinas.contains(disciplina);
     }
 
-    public void solicitarMatricula(Matricula solicitacao) {
+    public void solicitarMatricula(Matricula solicitacao)
+            throws ExcecaoDeAlunoNaoMatriculadoNoCurso, DisciplinaInexistente {
         Disciplina disciplinaSolicitada = solicitacao.getDisciplina();
         boolean existeDisciplina = existeEstaDisciplinaNoCursoAtual(disciplinaSolicitada);
         if(existeDisciplina) {
@@ -91,11 +92,12 @@ public class Curso {
                 // se a disciplina for do curso e o aluno tambem
                 this.matricular(solicitacao);
             } else {
-                // ops
+                throw new ExcecaoDeAlunoNaoMatriculadoNoCurso(aluno, this);
             }
 
         } else {
             // ops estao tentando matricular em uma disciplina inexistente
+            throw new DisciplinaInexistente();
         }
 
     }
